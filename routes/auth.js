@@ -7,6 +7,8 @@ const rounds = 10;
 const jwt = require("jsonwebtoken");
 const tokenSecret = "my-token-secret";
 
+const middleware = require('../middleware');
+
 router.get("/login", (req, res) => {
   User.findOne({ email: req.body.email }).then((user) => {
     if (!user) res.status(404).json({ error: "no user with that email found" });
@@ -34,6 +36,10 @@ router.post("/signup", (req, res) => {
         });
     }
   });
+});
+
+router.get('/jwt-test', middleware.verify, (req, res) => {
+    res.status(200).json(req.user);
 });
 
 function generateToken(user) {

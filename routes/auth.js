@@ -24,10 +24,10 @@ router.get("/login", (req, res) => {
 
 router.post("/signup", (req, res) => {
   bcrypt.hash(req.body.password, rounds, (error, hash) => {
-    if (error) res.status(500).json(error);
+    if (error) res.status(403).json(error);
     else {
-      const NewUser = User({ email: req.body.email, password: hash });
-      NewUser.save()
+      const newUser = User({ email: req.body.email, password: hash });
+      newUser.save()
         .then((user) => {
           res.status(200).json(user);
         })

@@ -1,8 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/user");
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 const rounds = 10;
+
+const jwt = require("jsonwebtoken");
+const tokenSecret = "my-token-secret";
 
 router.get("/login", (req, res) => {});
 
@@ -21,5 +24,9 @@ router.post("/signup", (req, res) => {
     }
   });
 });
+
+function generateToken(user) {
+  return jwt.sign({ data: user }, tokenSecret, { expiresIn: "24h" });
+}
 
 module.exports = router;
